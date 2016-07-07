@@ -11,20 +11,21 @@ namespace ForecastApplication
     {
         public App()
         {
+            MainPage = new MainPage();
             // The root page of your application
-            MainPage = new ContentPage
-            {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+            //MainPage = new ContentPage
+            //{
+            //    Content = new StackLayout
+            //    {
+            //        VerticalOptions = LayoutOptions.Center,
+            //        Children = {
+            //            new Label {
+            //                HorizontalTextAlignment = TextAlignment.Center,
+            //                Text = "Welcome to Xamarin Forms!"
+            //            }
+            //        }
+            //    }
+            //};
         }
 
         protected override void OnStart()
