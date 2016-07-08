@@ -11,16 +11,17 @@ namespace ForecastApplication
 {
     class MainPage : ContentPage
     {
+        private IRepository repository;
         private Entry city_Entry;
-        public MainPage()
+        private int userId;
+        public MainPage(IRepository repository)
         {
+            this.repository = repository;
             Initialize();
         }
 
         private void Initialize()
         {
-            Button auth_Btn = new Button() { Text = "Sign in" };
-            auth_Btn.Clicked += Auth_Btn_Click;
             Button favorites_Btn = new Button() { Text = "Favorites" };
             favorites_Btn.Clicked += Favorites_Btn_Click;
             city_Entry = new Entry() { Placeholder = "city" };
@@ -34,7 +35,6 @@ namespace ForecastApplication
             picker.Items.Add("Elec");
 
             StackLayout stackLayout = new StackLayout();
-            stackLayout.Children.Add(auth_Btn);
             stackLayout.Children.Add(favorites_Btn);
             stackLayout.Children.Add(city_Entry);
             stackLayout.Children.Add(citySearch_Btn);
@@ -47,12 +47,12 @@ namespace ForecastApplication
 
         private async void Auth_Btn_Click(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new AuthPage());
+            await Navigation.PushModalAsync(new AuthPage(repository));
         }
 
         private async void Favorites_Btn_Click(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new FavoritesPage());
+            await Navigation.PushModalAsync(new FavoritesPage(repository));
         }
 
         private void CitySearch_Btn_Click(object sender, EventArgs e)

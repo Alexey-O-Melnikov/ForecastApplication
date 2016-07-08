@@ -11,7 +11,9 @@ namespace ForecastApplication
     {
         public App()
         {
-            MainPage = new MainPage();
+            IValidator validator = new Validator();
+            IRepository repository = new Repository(validator);
+            MainPage = new AuthPage(repository);
         }
 
         protected override void OnStart()
