@@ -11,17 +11,19 @@ namespace ForecastApplication
 {
     class MainPage : ContentPage
     {
-        private IRepository repository;
         private Entry city_Entry;
-        private int userId;
-        public MainPage(IRepository repository)
+        public MainPage()
         {
-            this.repository = repository;
             Initialize();
         }
 
         private void Initialize()
         {
+            Button signIn_Btn = new Button() { Text = "Sign In" };
+            signIn_Btn.Clicked += SignIn_Btn_Click;
+            Button signOut_Btn = new Button() { Text = "Sign Out" };
+            signOut_Btn.Clicked += SignOut_Btn_Click;
+
             Button favorites_Btn = new Button() { Text = "Favorites" };
             favorites_Btn.Clicked += Favorites_Btn_Click;
             city_Entry = new Entry() { Placeholder = "city" };
@@ -35,7 +37,15 @@ namespace ForecastApplication
             picker.Items.Add("Elec");
 
             StackLayout stackLayout = new StackLayout();
-            stackLayout.Children.Add(favorites_Btn);
+            if(App.userId == 0)
+            {
+                stackLayout.Children.Add(signIn_Btn);
+            }
+            else
+            {
+                stackLayout.Children.Add(signOut_Btn);
+                stackLayout.Children.Add(favorites_Btn);
+            }
             stackLayout.Children.Add(city_Entry);
             stackLayout.Children.Add(citySearch_Btn);
             //stackLayout.Children.Add(picker);
@@ -45,14 +55,20 @@ namespace ForecastApplication
             this.Content = scrollView;
         }
 
-        private async void Auth_Btn_Click(object sender, EventArgs e)
+        private void SignOut_Btn_Click(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new AuthPage(repository));
+            App.userId = 0;
+            Initialize();
+        }
+
+        private async void SignIn_Btn_Click(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AuthPage());
         }
 
         private async void Favorites_Btn_Click(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new FavoritesPage(repository));
+            await Navigation.PushAsync(new FavoritesPage());
         }
 
         private void CitySearch_Btn_Click(object sender, EventArgs e)

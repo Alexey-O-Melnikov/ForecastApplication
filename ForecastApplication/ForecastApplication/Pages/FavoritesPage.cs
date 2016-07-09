@@ -9,10 +9,8 @@ namespace ForecastApplication
 {
     class FavoritesPage : ContentPage
     {
-        private IRepository repository;
-        public FavoritesPage(IRepository repository)
+        public FavoritesPage()
         {
-            this.repository = repository;
             Initialize();
         }
 

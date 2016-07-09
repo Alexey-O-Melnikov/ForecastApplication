@@ -9,12 +9,10 @@ namespace ForecastApplication
 {
     class AuthPage : ContentPage
     {
-        private IRepository repository;
         private Entry login_Entry;
         private Entry password_Entry;
-        public AuthPage(IRepository repository)
+        public AuthPage()
         {
-            this.repository = repository;
             Initialize();
         }
 
@@ -45,18 +43,18 @@ namespace ForecastApplication
         //Вход
         private async void SignIn_Btn_Click(object sender, EventArgs e)
         {
-            int userId = repository.GetUserId(login_Entry.Text, password_Entry.Text);
+            App.userId = App.repository.GetUserId(login_Entry.Text, password_Entry.Text);
 
-            if(userId == 0)
+            if(App.userId == 0)
                await DisplayAlert("Error", "Login or password incorrect", "Ok");
             else
-               await Navigation.PushAsync(new MainPage(repository));
+               await Navigation.PushAsync(new MainPage());
         }
 
         //Регистрация
         private void CheckIn_Btn_Click(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new CheckInPage(repository));
+            Navigation.PushModalAsync(new CheckInPage());
         }
     }
 }

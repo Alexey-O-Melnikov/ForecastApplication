@@ -9,13 +9,11 @@ namespace ForecastApplication
 {
     class CheckInPage : ContentPage
     {
-        private IRepository repository;
         private Entry login_Entry;
         Entry password_Entry;
         Entry email_Entry;
-        public CheckInPage(IRepository repository)
+        public CheckInPage()
         {
-            this.repository = repository;
             Initialize();
         }
         private void Initialize()
@@ -40,18 +38,18 @@ namespace ForecastApplication
 
         private async void CheckIn_Btn_Click(object sender, EventArgs e)
         {
-            string message = repository.CreateNewUser(login_Entry.Text, password_Entry.Text, email_Entry.Text);
+            string message = App.repository.CreateNewUser(login_Entry.Text, password_Entry.Text, email_Entry.Text);
 
-            int userId = repository.GetUserId(login_Entry.Text, password_Entry.Text);
+            App.userId = App.repository.GetUserId(login_Entry.Text, password_Entry.Text);
 
-            if (userId == 0)
+            if (App.userId == 0)
             {
                 await DisplayAlert("Error", message, "Ok");
             }
             else
             {
                 await DisplayAlert("Congratulations", "Hello, "+ login_Entry.Text, "Ok");
-                await Navigation.PushAsync(new MainPage(repository));
+                await Navigation.PushAsync(new MainPage());
             }
         }
     }

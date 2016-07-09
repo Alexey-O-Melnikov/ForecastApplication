@@ -38,17 +38,17 @@ namespace ForecastApplication
             string pattern = @"/^([\w\._]+)@\1\.([a-z]{2,6}\.?)$/";
 
             if(IsValid(email, pattern))
-                message += "Not valid Email.\n\r";
+                message = "Not valid Email.\n\r";
             return message;
         }
 
         public string IsValidLogin(string login)
         {
             string message = "";
-            string pattern = @"/^[a-z0-9_-]{3,49}$/";
+            string pattern = @"/^[A-z0-9_-]{3,49}$/";
 
-            if (!IsValid(login, pattern))
-                message += "Login should consist of letters, numbers, underscores and hyphens. Limit 49 characters.\n\r";
+            if (IsValid(login, pattern))
+                message = "Login should consist of letters, numbers, underscores and hyphens. Limit 49 characters.\n\r";
 
             return message;
         }

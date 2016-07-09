@@ -12,10 +12,10 @@ namespace ForecastApplication
 {
     public class ApiOpenweathermapWorker
     {
-        private dynamic _forecast;
+        private dynamic forecast;
         public ApiOpenweathermapWorker()
         {
-            _forecast = GetForecast();
+            forecast = GetForecast();
         }
         public async Task<dynamic> GetForecast(string cityName = "", int cityId = 0)
         {
@@ -46,49 +46,49 @@ namespace ForecastApplication
 
         public string GetCounry()
         {
-            return @"http://api.openweathermap.org/img/w/" + _forecast.city.country + ".png";
+            return @"http://api.openweathermap.org/img/w/" + forecast.city.country + ".png";
         }
 
         public string GetIcon()
         {
-            return  _forecast.list[0].weather.icon;
+            return  forecast.list[0].weather.icon;
         }
 
 
         public DateTime GetDateTime()
         {
-            return (DateTime)_forecast.list[0].dt_txt;
+            return (DateTime)forecast.list[0].dt_txt;
         }
 
         public double GetTemp()
         {
             double zeroKelvin = -273.15;
-            return (double)_forecast.list[0].main.temp + zeroKelvin;
+            return (double)forecast.list[0].main.temp + zeroKelvin;
         }
 
         public double GetWindSpeed()
         {
-            return (double)_forecast.list[0].wind.speed;
+            return (double)forecast.list[0].wind.speed;
         }
 
         public double GetWindDirectiond()
         {
-            return (double)_forecast.list[0].wind.deg;
+            return (double)forecast.list[0].wind.deg;
         }
 
         public string GetCloudiness()
         {
-            return _forecast.list[0].weather.description;
+            return forecast.list[0].weather.description;
         }
 
         public double GetPressure()
         {
-            return (double)_forecast.list[0].main.pressure;
+            return (double)forecast.list[0].main.pressure;
         }
 
         public double GetHumidity()
         {
-            return (double)_forecast.list[0].main.humidity;
+            return (double)forecast.list[0].main.humidity;
         }
 
         public string GetSunrise()
@@ -103,7 +103,7 @@ namespace ForecastApplication
 
         public string GetCoords()
         {
-            return _forecast.city.coord.lon + " " + _forecast.city.coord.lat;
+            return forecast.city.coord.lon + " " + forecast.city.coord.lat;
         }
     }
 }

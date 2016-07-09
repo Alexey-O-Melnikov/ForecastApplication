@@ -9,11 +9,14 @@ namespace ForecastApplication
 {
     public class App : Application
     {
+        public static IRepository repository;
+        public static int userId = 0; 
         public App()
         {
             IValidator validator = new Validator();
-            IRepository repository = new Repository(validator);
-            MainPage = new AuthPage(repository);
+            repository = new Repository(validator, "ForecastApplication.db");
+            //MainPage = new NavigationPage(new AuthPage(repository));
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
