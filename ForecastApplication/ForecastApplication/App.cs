@@ -10,11 +10,13 @@ namespace ForecastApplication
     public class App : Application
     {
         public static IRepository repository;
-        public static int userId = 0; 
+        public static IValidator validator;
+        public static int userId; 
         public App()
         {
-            IValidator validator = new Validator();
-            repository = new Repository(validator, "ForecastApplication.db");
+            validator = new Validator();
+            repository = new RepositoryLocalStorage(new LocalStorage());
+            //repository = new Repository("ForecastApplication.db");
             //MainPage = new NavigationPage(new AuthPage(repository));
             MainPage = new NavigationPage(new MainPage());
         }

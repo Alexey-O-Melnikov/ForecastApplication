@@ -19,6 +19,7 @@ namespace ForecastApplication
 
         private async void Initialize()
         {
+            Title = "Forecast";
             Button signIn_Btn = new Button() { Text = "Sign In" };
             signIn_Btn.Clicked += SignIn_Btn_Click;
             Button signOut_Btn = new Button() { Text = "Sign Out" };
@@ -58,6 +59,12 @@ namespace ForecastApplication
 
         private async Task<Grid> InitializeGrid(string cityName = "", int cityId = 0)
         {
+            string message = App.validator.IsValidCityName(cityName);
+            if(message != "")
+            {
+                await DisplayAlert("Error", message, "Ok");
+                return null;
+            }
             ApiOpenweathermapWorker apiWorker = new ApiOpenweathermapWorker();
             await apiWorker.CreatWorker(cityName, cityId);
 
@@ -82,7 +89,6 @@ namespace ForecastApplication
                 },
                 RowSpacing = 5
             };
-
 
             Label cityAndCountry = new Label { Text = apiWorker.GetCityName() + ", " + apiWorker.GetCounry(), FontSize = 20, FontAttributes = FontAttributes.Bold };
             Label mainForecast = new Label { Text = Math.Round(apiWorker.GetTemp(), 1).ToString() + " C", FontSize = 25 };
@@ -131,6 +137,12 @@ namespace ForecastApplication
         private void CitySearch_Btn_Click(object sender, EventArgs e)
         {
             cityName = city_Entry.Text;
+            Initialize();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             Initialize();
         }
     }

@@ -41,6 +41,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISQLite.cs" />
     <Compile Include="IValidator.cs" />
+    <Compile Include="LocalStorage.cs" />
     <Compile Include="Pages\CheckInPage.cs" />
     <Compile Include="Pages\AuthPage.cs" />
     <Compile Include="Pages\FavoritesPage.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="Pages\MainPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="RepositoryLocalStorage.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>

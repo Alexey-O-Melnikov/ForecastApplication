@@ -24,10 +24,10 @@ namespace ForecastApplication
         public string IsValidCityName(string cityName)
         {
             string message = "";
-            string pattern = @"/^.*[^A-zА-яЁё].*$/";
+            string pattern = @"/^*[^A-zА-яЁё]$/";
 
-            if(!IsValid(cityName, pattern))
-                message += "Use only letters.\n\r";
+            if(IsValid(cityName, pattern))
+                message = "Use only letters.\n\r";
 
             return message;
         }

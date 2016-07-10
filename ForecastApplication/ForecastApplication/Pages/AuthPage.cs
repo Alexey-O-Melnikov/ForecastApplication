@@ -18,6 +18,7 @@ namespace ForecastApplication
 
         private void Initialize()
         {
+            Title = "Sign In";
             Button checkIn_Btn = new Button() { Text = "Check In" };
             checkIn_Btn.Clicked += CheckIn_Btn_Click;
 
@@ -48,13 +49,13 @@ namespace ForecastApplication
             if(App.userId == 0)
                await DisplayAlert("Error", "Login or password incorrect", "Ok");
             else
-               await Navigation.PushAsync(new MainPage());
+               await Navigation.PopAsync();
         }
 
         //Регистрация
-        private void CheckIn_Btn_Click(object sender, EventArgs e)
+        private async void CheckIn_Btn_Click(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new CheckInPage());
+            await Navigation.PushAsync(new CheckInPage());
         }
     }
 }

@@ -18,5 +18,14 @@ namespace ForecastApplication
         public string Password { get; set; }
         [Unique]
         public string Email { get; set; }
+
+        public User() { }
+        public User(string login, string password, string email)
+        {
+            UserId = new Random().Next();
+            Login = login;
+            Password = password;
+            Email = email;
+        }
     }
 }

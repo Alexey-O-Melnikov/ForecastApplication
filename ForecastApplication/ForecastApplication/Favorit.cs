@@ -10,9 +10,17 @@ namespace ForecastApplication
     [Table("Favorites")]
     public class Favorit
     {
-        [PrimaryKey, AutoIncrement]
-        public int FavoritId { get; set; }
+        //[PrimaryKey, AutoIncrement]
+        //public int FavoritId { get; set; }
         public int UserId { get; set; }
         public int CityId { get; set; }
+        //public User User { get; set; }
+
+        public Favorit() { }
+        public Favorit(int userId, int cityId)
+        {
+            UserId = userId;
+            CityId = cityId;
+        }
     }
 }

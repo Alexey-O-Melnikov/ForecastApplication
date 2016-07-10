@@ -18,6 +18,7 @@ namespace ForecastApplication
         }
         private void Initialize()
         {
+            Title = "Check In";
             login_Entry = new Entry() { Placeholder = "Login" };
             password_Entry = new Entry() { Placeholder = "Password", IsPassword = true };
             email_Entry = new Entry() { Placeholder = "Email" };
@@ -42,14 +43,13 @@ namespace ForecastApplication
 
             App.userId = App.repository.GetUserId(login_Entry.Text, password_Entry.Text);
 
-            if (App.userId == 0)
+            if (message != "")
             {
                 await DisplayAlert("Error", message, "Ok");
             }
             else
             {
-                await DisplayAlert("Congratulations", "Hello, "+ login_Entry.Text, "Ok");
-                await Navigation.PushAsync(new MainPage());
+                await Navigation.PopToRootAsync();
             }
         }
     }
