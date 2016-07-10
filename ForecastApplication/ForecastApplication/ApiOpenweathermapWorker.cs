@@ -13,12 +13,16 @@ namespace ForecastApplication
     public class ApiOpenweathermapWorker
     {
         private dynamic forecast;
-        public ApiOpenweathermapWorker()
+        public async Task<bool> CreatWorker(string cityName = "", int cityId = 0)
         {
-            forecast = GetForecast();
+            forecast = await GetForecast(cityName, cityId);
+            return true;
         }
         public async Task<dynamic> GetForecast(string cityName = "", int cityId = 0)
         {
+            if (cityName == "" && cityId == 0)
+                return null;
+
             string site = @"http://api.openweathermap.org/data/2.5/forecast/city?";
             string isName = "q=";
             string isId = "id=";
@@ -44,51 +48,60 @@ namespace ForecastApplication
             return forecast;
         }
 
+        public string GetCityName()
+        {
+            return forecast?.city.name ?? "Error";
+        }
+
         public string GetCounry()
         {
-            return @"http://api.openweathermap.org/img/w/" + forecast.city.country + ".png";
+            return forecast?.city.country ?? "Error";
         }
 
         public string GetIcon()
         {
-            return  forecast.list[0].weather.icon;
+            return @"http://api.openweathermap.org/img/w/" + forecast?.list[0].weather[0].icon + ".png" ?? "Error";
         }
 
+        public string GetWeatherMain()
+        {
+            return forecast?.list[0].weather[0].main;
+        }
 
         public DateTime GetDateTime()
         {
-            return (DateTime)forecast.list[0].dt_txt;
+            return (DateTime)forecast?.list[0].dt_txt;
         }
 
         public double GetTemp()
         {
             double zeroKelvin = -273.15;
-            return (double)forecast.list[0].main.temp + zeroKelvin;
+            return (double)forecast?.list[0].main.temp + zeroKelvin;
         }
 
         public double GetWindSpeed()
         {
-            return (double)forecast.list[0].wind.speed;
+            return (double)forecast?.list[0].wind.speed;
         }
 
         public double GetWindDirectiond()
         {
-            return (double)forecast.list[0].wind.deg;
+            return (double)forecast?.list[0].wind.deg;
         }
 
         public string GetCloudiness()
         {
-            return forecast.list[0].weather.description;
+            return forecast?.list[0].weather[0].description ?? "Error";
         }
 
         public double GetPressure()
         {
-            return (double)forecast.list[0].main.pressure;
+            return (double)forecast?.list[0].main.pressure;
         }
 
         public double GetHumidity()
         {
-            return (double)forecast.list[0].main.humidity;
+            return (double)forecast?.list[0].main.humidity;
         }
 
         public string GetSunrise()
@@ -101,9 +114,14 @@ namespace ForecastApplication
             return "error";
         }
 
-        public string GetCoords()
+        public double GetCoordsLon()
         {
-            return forecast.city.coord.lon + " " + forecast.city.coord.lat;
+            return (double)forecast?.city.coord.lon;
+        }
+
+        public double GetCoordsLat()
+        {
+            return (double)forecast?.city.coord.lat;
         }
     }
 }
