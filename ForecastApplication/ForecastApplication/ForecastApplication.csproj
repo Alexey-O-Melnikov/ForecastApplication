@@ -35,23 +35,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ApiOpenweathermapWorker.cs" />
+    <Compile Include="Api\ApiOpenweathermapWorker.cs" />
     <Compile Include="App.cs" />
-    <Compile Include="Favorit.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="ISQLite.cs" />
-    <Compile Include="IValidator.cs" />
-    <Compile Include="LocalStorage.cs" />
+    <Compile Include="Model\Favorit.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\ISQLite.cs" />
+    <Compile Include="Validator\IValidator.cs" />
+    <Compile Include="Repository\LocalStorage.cs" />
     <Compile Include="Pages\CheckInPage.cs" />
     <Compile Include="Pages\AuthPage.cs" />
     <Compile Include="Pages\FavoritesPage.cs" />
-    <Compile Include="Forecast.cs" />
+    <Compile Include="Model\Forecast.cs" />
     <Compile Include="Pages\MainPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="RepositoryLocalStorage.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="Validator.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Repository\RepositoryLocalStorage.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Validator\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -93,6 +93,9 @@
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\ForecastMap.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.0.0.6482\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

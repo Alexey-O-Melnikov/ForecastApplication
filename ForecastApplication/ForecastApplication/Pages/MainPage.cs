@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Xamarin.Forms;
 
 
@@ -57,7 +59,7 @@ namespace ForecastApplication
             if (forecastForCity_Grid != null)
                 stackLayout.Children.Add(forecastForCity_Grid);
 
-            if (!String.IsNullOrWhiteSpace(App.cityName))
+            if (!String.IsNullOrWhiteSpace(App.cityName) && App.userId != 0)
             {
                 cityId = App.apiWorker.GetCityId();
                 stackLayout.Children.Add(
@@ -72,9 +74,18 @@ namespace ForecastApplication
             this.Content = scrollView;
         }
 
-        private async void InitializeMap()
+        private WebView InitializeMap()
         {
+            WebView webView = new WebView
+            {
+                Source = new UrlWebViewSource
+                {
+                    Url = @"http://openweathermap.org/weathermap",
+                },
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
 
+            return webView;
         }
 
         private async Task<Grid> InitializeGrid(string cityName = "", int cityId = 0)
