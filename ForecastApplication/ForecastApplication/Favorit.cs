@@ -14,7 +14,6 @@ namespace ForecastApplication
         //public int FavoritId { get; set; }
         public int UserId { get; set; }
         public int CityId { get; set; }
-        //public User User { get; set; }
 
         public Favorit() { }
         public Favorit(int userId, int cityId)

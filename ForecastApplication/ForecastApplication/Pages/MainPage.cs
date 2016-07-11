@@ -11,7 +11,7 @@ namespace ForecastApplication
     class MainPage : ContentPage
     {
         Entry city_Entry;
-        private string cityName = "";
+        private int cityId = 0;
         public MainPage()
         {
             Initialize();
@@ -31,10 +31,15 @@ namespace ForecastApplication
             Button citySearch_Btn = new Button() { Text = "Search" };
             citySearch_Btn.Clicked += CitySearch_Btn_Click;
 
+            Button addInFavorites_Btn = new Button() { Text = "Add in favorites" };
+            addInFavorites_Btn.Clicked += AddInFavorites_Btn_Click;
+            Button delOfFavorites_Btn = new Button() { Text = "Delete of favorites" };
+            delOfFavorites_Btn.Clicked += DelOfFavorites_Btn_Click;
+
             Grid forecastForCity_Grid = null;
-            if (!String.IsNullOrWhiteSpace(cityName))
+            if (!String.IsNullOrWhiteSpace(App.cityName))
             {
-                forecastForCity_Grid = await InitializeGrid(cityName);
+                forecastForCity_Grid = await InitializeGrid(App.cityName);
             }
 
             StackLayout stackLayout = new StackLayout();
@@ -52,9 +57,24 @@ namespace ForecastApplication
             if (forecastForCity_Grid != null)
                 stackLayout.Children.Add(forecastForCity_Grid);
 
+            if (!String.IsNullOrWhiteSpace(App.cityName))
+            {
+                cityId = App.apiWorker.GetCityId();
+                stackLayout.Children.Add(
+                    App.repository.CheckedCityInFavorites(App.userId, cityId) ?
+                        delOfFavorites_Btn :
+                        addInFavorites_Btn
+                );
+            }
+
             ScrollView scrollView = new ScrollView() { Content = stackLayout };
 
             this.Content = scrollView;
+        }
+
+        private async void InitializeMap()
+        {
+
         }
 
         private async Task<Grid> InitializeGrid(string cityName = "", int cityId = 0)
@@ -65,8 +85,7 @@ namespace ForecastApplication
                 await DisplayAlert("Error", message, "Ok");
                 return null;
             }
-            ApiOpenweathermapWorker apiWorker = new ApiOpenweathermapWorker();
-            await apiWorker.CreatWorker(cityName, cityId);
+            await App.apiWorker.CreatWorker(cityName, cityId);
 
             Grid grid = new Grid
             {
@@ -90,11 +109,11 @@ namespace ForecastApplication
                 RowSpacing = 5
             };
 
-            Label cityAndCountry = new Label { Text = apiWorker.GetCityName() + ", " + apiWorker.GetCounry(), FontSize = 20, FontAttributes = FontAttributes.Bold };
-            Label mainForecast = new Label { Text = Math.Round(apiWorker.GetTemp(), 1).ToString() + " C", FontSize = 25 };
-            Label dateTimeForecast = new Label { Text = "get at " + apiWorker.GetDateTime().ToString("yyyy.MM.dd hh:mm") };
-            Label weatherMain = new Label { Text = apiWorker.GetWeatherMain() };
-            Image icon = new Image { Source = apiWorker.GetIcon() };
+            Label cityAndCountry = new Label { Text = App.apiWorker.GetCityName() + ", " + App.apiWorker.GetCounry(), FontSize = 20, FontAttributes = FontAttributes.Bold };
+            Label mainForecast = new Label { Text = Math.Round(App.apiWorker.GetTemp(), 1).ToString() + " C", FontSize = 25 };
+            Label dateTimeForecast = new Label { Text = "get at " + App.apiWorker.GetDateTime().ToString("yyyy.MM.dd hh:mm") };
+            Label weatherMain = new Label { Text = App.apiWorker.GetWeatherMain() };
+            Image icon = new Image { Source = App.apiWorker.GetIcon() };
 
             grid.Children.Add(cityAndCountry,0,0);
             Grid.SetColumnSpan(cityAndCountry, 2);
@@ -105,15 +124,15 @@ namespace ForecastApplication
             grid.Children.Add(dateTimeForecast,0,3);
             Grid.SetColumnSpan(dateTimeForecast, 2);
             grid.Children.Add(new Label { Text = "Wind"}, 0, 4);
-            grid.Children.Add(new Label { Text = Math.Round(apiWorker.GetWindSpeed(), 2).ToString() + "m/s\n\rWind direction (" + Math.Round(apiWorker.GetWindDirectiond(), 3).ToString() + ")" }, 1, 4);
+            grid.Children.Add(new Label { Text = Math.Round(App.apiWorker.GetWindSpeed(), 2).ToString() + "m/s\n\rWind direction (" + Math.Round(App.apiWorker.GetWindDirectiond(), 3).ToString() + ")" }, 1, 4);
             grid.Children.Add(new Label { Text = "Cloudiness" }, 0, 5);
-            grid.Children.Add(new Label { Text = apiWorker.GetCloudiness() }, 1, 5);
+            grid.Children.Add(new Label { Text = App.apiWorker.GetCloudiness() }, 1, 5);
             grid.Children.Add(new Label { Text = "Pressure" }, 0, 6);
-            grid.Children.Add(new Label { Text = Math.Round(apiWorker.GetPressure(), 1).ToString() + "hPa" }, 1, 6);
+            grid.Children.Add(new Label { Text = Math.Round(App.apiWorker.GetPressure(), 1).ToString() + "hPa" }, 1, 6);
             grid.Children.Add(new Label { Text = "Humidity" }, 0, 7);
-            grid.Children.Add(new Label { Text = Math.Round(apiWorker.GetHumidity()).ToString() + "%" }, 1, 7);
+            grid.Children.Add(new Label { Text = Math.Round(App.apiWorker.GetHumidity()).ToString() + "%" }, 1, 7);
             grid.Children.Add(new Label { Text = "Get coords" }, 0, 8);
-            grid.Children.Add(new Label { Text = "[" + Math.Round(apiWorker.GetCoordsLon(), 2) + ", " + Math.Round(apiWorker.GetCoordsLat(), 2) + "]" }, 1, 8);
+            grid.Children.Add(new Label { Text = "[" + Math.Round(App.apiWorker.GetCoordsLon(), 2) + ", " + Math.Round(App.apiWorker.GetCoordsLat(), 2) + "]" }, 1, 8);
 
             return grid;
         }
@@ -136,9 +155,24 @@ namespace ForecastApplication
 
         private void CitySearch_Btn_Click(object sender, EventArgs e)
         {
-            cityName = city_Entry.Text;
+            App.cityName = city_Entry.Text;
             Initialize();
         }
+
+        private void DelOfFavorites_Btn_Click(object sender, EventArgs e)
+        {
+            string message = App.repository.DeleteCityOfFavorites(App.userId, cityId);
+            DisplayAlert(message, App.cityName, "Ok");
+            Initialize();
+        }
+
+        private void AddInFavorites_Btn_Click(object sender, EventArgs e)
+        {
+            string message = App.repository.AddCityInFavorites(App.userId, cityId);
+            DisplayAlert(message, App.cityName, "Ok");
+            Initialize();
+        }
+
 
         protected override void OnAppearing()
         {

@@ -13,5 +13,9 @@ namespace ForecastApplication
         List<int> GetListFavorites(int userId);
         string AddCityInFavorites(int userId, int cityId);
         string DeleteCityOfFavorites(int userId, int cityId);
+        bool CheckedCityInFavorites(int userId, int cityId);
+        bool ChekedLogin(string login);
+        bool CheckedEmail(string email);
+
     }
 }

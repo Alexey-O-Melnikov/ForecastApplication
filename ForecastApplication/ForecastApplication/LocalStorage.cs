@@ -18,9 +18,9 @@ namespace ForecastApplication
                 new User
                 {
                     UserId = 1,
-                    Login = "Alex",
+                    Login = "q",
                     Email = "alex@mel.ru",
-                    Password = "pa$1234567"
+                    Password = "q"
                 },
                 new User
                 {

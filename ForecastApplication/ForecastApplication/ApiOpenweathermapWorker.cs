@@ -48,6 +48,11 @@ namespace ForecastApplication
             return forecast;
         }
 
+        public int GetCityId()
+        {
+            return forecast?.city.id;
+        }
+
         public string GetCityName()
         {
             return forecast?.city.name ?? "Error";

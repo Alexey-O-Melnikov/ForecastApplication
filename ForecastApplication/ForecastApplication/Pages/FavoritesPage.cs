@@ -14,20 +14,33 @@ namespace ForecastApplication
             Initialize();
         }
 
-        private void Initialize()
+        private async void Initialize()
         {
             Title = "Favorites";
-            Button addCity_Btn = new Button() { Text = "Added city" };
 
             StackLayout stackLayout = new StackLayout();
-            stackLayout.Children.Add(addCity_Btn);
 
+            foreach (var cityId in App.repository.GetListFavorites(App.userId))
+            {
+                await App.apiWorker.CreatWorker(cityId: cityId);
 
+                Button city_Btn = new Button { Text = App.apiWorker.GetCityName() };
+                city_Btn.Clicked += City_Btn_Click;
+
+                stackLayout.Children.Add(city_Btn);
+            }
 
             ScrollView scrollView = new ScrollView() { Content = stackLayout };
 
             this.Content = scrollView;
 
+        }
+
+        private void City_Btn_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            App.cityName = btn.Text;
+            Navigation.PopAsync();
         }
     }
 

@@ -37,7 +37,7 @@ namespace ForecastApplication
             return message;
         }
 
-        private bool CheckedEmail(string email)
+        public bool CheckedEmail(string email)
         {
             var check = from user in storage.Users
                         where user.Email == email
@@ -46,7 +46,7 @@ namespace ForecastApplication
             return check.Count() == 0 ? false : true;
         }
 
-        private bool ChekedLogin(string login)
+        public bool ChekedLogin(string login)
         {
             var check = from user in storage.Users
                         where user.Login == login
@@ -55,7 +55,7 @@ namespace ForecastApplication
             return check.Count() == 0 ? false : true;
         }
 
-        private bool CheckedCityInFavorites(int userId, int cityId)
+        public bool CheckedCityInFavorites(int userId, int cityId)
         {
             var check = from favorit in storage.Favorites
                         where favorit.UserId == userId && favorit.CityId == cityId
@@ -72,14 +72,13 @@ namespace ForecastApplication
             storage.Favorites.Add(
                 new Favorit(userId, cityId));
 
-            return "";
+            return "City successfully added";
         }
 
         public string DeleteCityOfFavorites(int userId, int cityId)
         {
             if (CheckedCityInFavorites(userId, cityId))
-                storage.Favorites.Remove(
-                    new Favorit(userId, cityId));
+                storage.Favorites.RemoveAll(f => f.CityId == cityId && f.UserId == userId);
 
             return "City remove from ravorites";
         }
